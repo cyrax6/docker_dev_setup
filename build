@@ -1,0 +1,24 @@
+#/bin/bash
+
+DEV_KUBE_IMAGE_NAME="gcp-sdk"
+DEV_KUBE_VOLUME_NAME="gcloud-config"
+SERVICE_ACCOUNT_KEY=""
+
+./git_copy.sh
+echo "	Cloned code."
+#read var
+
+docker build --build-arg DOCKER_GROUP_ID=`getent group docker | cut -d: -f3` -t gcp-sdk .
+docker images
+docker ps -a
+
+#This will create a volume
+#docker run -ti --name gcloud-config gcp-sdk gcloud auth login
+
+# Make sure this key file is available. Service account has this
+echo "Building volume with service account creds"
+docker run  -t -v $HOME/.ssh:/data -i --name $DEV_KUBE_VOLUME_NAME $DEV_KUBE_IMAGE_NAME gcloud auth activate-service-account --key-file /data/$SERVICE_ACCOUNT_KEY
+
+# Now launch a bash. Note project id is not yet set
+echo "All done. Now launching a bash in container"
+docker run -v /var/run/docker.sock:/var/run/docker.sock -p 8080:8080 --rm -ti --volumes-from $DEV_KUBE_VOLUME_NAME $DEV_KUBE_IMAGE_NAME bash
