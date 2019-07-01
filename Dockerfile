@@ -8,7 +8,7 @@ ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 ENV PATH "$PATH:/opt/google-cloud-sdk/bin/"
 COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
 COPY ./gcp_env /tmp/gcp_env
-COPY ./nyan_cloud/testing/manifests /tmp/gcp_env/nyan_cloud
+COPY ./example_cloud/testing/manifests /tmp/gcp_env/example_cloud
 
 #RUN curl -fsSL https://get.docker.com -o get-docker.sh
 # TODO: Check if this really matters with the new images

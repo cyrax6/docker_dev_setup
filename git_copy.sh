@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPO="nyan_cloud"
+REPO="example_cloud"
 
 rm -rf $REPO
-git clone --depth 1 cerberus:~/projects/nyan_cloud/
+git clone --depth 1 cerberus:~/projects/example_cloud/

@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+        name: hello-docker
+        labels:
+            app: hello-docker
+spec:
+        replicas: 1
+        selector:
+                matchLabels:
+                        app: hello-docker
+                        tier: web
+        template:
+                metadata:
+                        labels:
+                            app: hello-docker
+                            tier: web
+                spec:
+                        containers:
+                        - name: hello-now
+                          image: us.gcr.io/nyan-car/hello_docker
+                          ports:
+                          - containerPort: 8090
+                          env:
+                            - name: PORT
+                              value: "8090"
